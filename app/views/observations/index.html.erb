@@ -25,11 +25,12 @@
         </td>
         <% @keys.each do |k| %>
           <td>
-            <%= o.data[k]["speed"] %> (<%= o.data[k]["direction"]%>)
+            <% if o.data.present? && o.data[k].present? && o.data[k]["speed"].present? %>
+              <%= o.data[k]["speed"] %> (<%= o.data[k]["direction"]%>)
+            <% end %>
           </td>
         <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
-
