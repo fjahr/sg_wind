@@ -3,15 +3,17 @@
 <h1><%= @station.gsub('-', ' ').humanize %></h1>
 <hr>
 
+<br>
 <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
 <p>
   <h3>Wind Speeds</h3>
   <%= line_chart @speeds, ytitle: "km/h" %>
 </p>
 
+<br>
 <p>
   <h3>Wind Directions</h3>
-  <%= timeline @directions %>
+  <%= timeline @directions, height: "400px" %>
 </p>
 
 <%= link_to 'Back', observations_path %>
