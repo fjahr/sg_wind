@@ -24,7 +24,7 @@
             <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stations</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
               <% Station.all.each do |s| %>
-                <%= link_to s.gsub("-", " ").humanize, observation_path(s), class: "dropdown-item" %>
+                <%= link_to s.gsub("-", " ").titleize, observation_path(s), class: "dropdown-item" %>
               <% end %>
             </div>
           </li>
