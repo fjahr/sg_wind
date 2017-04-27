@@ -4,7 +4,7 @@ class ObservationsController < ApplicationController
   # GET /observations
   # GET /observations.json
   def index
-    @observations = Observation.all
+    @observations = Observation.order("created_at").last(96)
   end
 
   # GET /observations/1
