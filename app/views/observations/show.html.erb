@@ -1,9 +1,16 @@
 <p id="notice"><%= notice %></p>
 
+<h1><%= @station.gsub('-', '').humanize %></h1>
+
+<%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
 <p>
-  <strong>Data:</strong>
-  <%= @observation.data %>
+  <strong>Wind Speeds:</strong>
+  <%= line_chart @speeds %>
 </p>
 
-<%= link_to 'Edit', edit_observation_path(@observation) %> |
+<p>
+  <strong>Wind Directions:</strong>
+  <%= timeline @directions %>
+</p>
+
 <%= link_to 'Back', observations_path %>

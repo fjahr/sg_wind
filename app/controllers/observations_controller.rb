@@ -1,20 +1,41 @@
 class ObservationsController < ApplicationController
-  before_action :set_observation, only: [:show, :edit, :update, :destroy]
 
-  # GET /observations
-  # GET /observations.json
   def index
     @observations = Observation.order("created_at").last(96)
   end
 
-  # GET /observations/1
-  # GET /observations/1.json
   def show
-    render text: params[:id]
+    @station = params[:id]
+    obs = Observation.order("created_at").last(96)
+    @observations = obs.map { |o| o.created_at = o.created_at.in_time_zone("Singapore"); o }
 
+    speeds = @observations.map do |o|
+      if o.data[@station] && o.data[@station]
+        [o.created_at, o.data[@station]["speed"]]
+      end
+    end
+    @speeds = speeds.compact
+
+    dir_res = []
+
+    directions = @observations.map do |o|
+      if o.data[@station] && o.data[@station]
+        time = o.created_at
+        dir = o.data[@station]["direction"]
+
+        if dir_res.last && (dir_res.last[0] == dir)
+          last = dir_res.pop
+
+          dir_res.push([dir, last[1], time])
+        else
+          dir_res.push([dir, time, time])
+        end
+      end
+    end
+
+    @directions = dir_res
   end
 
-  # GET /observations/new
   def new
     response = Faraday.get('http://www.weather.gov.sg/weather-currentobservations-wind/')
     page = Nokogiri::HTML(response.body)
@@ -38,11 +59,6 @@ class ObservationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_observation
-      @observation = Observation.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def observation_params
       params.require(:observation).permit(:data)
