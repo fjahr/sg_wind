@@ -1,12 +1,12 @@
 class ObservationsController < ApplicationController
 
   def index
-    @observations = Observation.order("created_at").last(96).reverse
+    @observations = Observation.order("created_at").last(144).reverse
   end
 
   def show
     @station = params[:id]
-    @observations = Observation.order("created_at").last(96)
+    @observations = Observation.order("created_at").last(144)
 
     speeds = @observations.map do |o|
       if o.data[@station] && o.data[@station]
