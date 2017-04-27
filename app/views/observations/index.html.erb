@@ -2,18 +2,15 @@
 
 <h1>Observations</h1>
 
-<% @keys = @observations.first.data.keys.sort %>
-
 <table>
   <thead>
     <tr>
       <th>
         Time
       </th>
-      <% @keys.each do |o| %>
-        <th><%= o %></th>
+      <% Station.all.each do |o| %>
+        <th><%= link_to o.gsub('-', ' ').humanize, observation_path(o) %></th>
       <% end %>
-      <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -23,7 +20,7 @@
         <td>
           <%= o.time %>
         </td>
-        <% @keys.each do |k| %>
+        <% Station.all.each do |k| %>
           <td>
             <% if o.data.present? && o.data[k].present? && o.data[k]["speed"].present? %>
               <%= o.data[k]["speed"] %> (<%= o.data[k]["direction"]%>)

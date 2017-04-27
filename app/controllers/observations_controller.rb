@@ -10,6 +10,8 @@ class ObservationsController < ApplicationController
   # GET /observations/1
   # GET /observations/1.json
   def show
+    render text: params[:id]
+
   end
 
   # GET /observations/new
@@ -26,7 +28,7 @@ class ObservationsController < ApplicationController
       location = elem.attributes["data-content"].value.scan(/<strong>.*<\/strong>/).last.gsub('<strong>', '').gsub('</strong>', '')
       speed = elem.text.to_f
       direction = elem.children[1].attributes["src"].value.scan(/sm-.*.png$/).first.gsub("sm-", "").gsub(".png", "")
-      winds[location] = {speed: speed, direction: direction}
+      winds[location.parameterize] = {speed: speed, direction: direction}
     end
 
     @observation = Observation.new(time: time, data: winds)
