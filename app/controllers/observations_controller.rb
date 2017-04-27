@@ -1,13 +1,12 @@
 class ObservationsController < ApplicationController
 
   def index
-    @observations = Observation.order("created_at").last(96)
+    @observations = Observation.order("created_at").last(96).reverse
   end
 
   def show
     @station = params[:id]
-    obs = Observation.order("created_at").last(96)
-    @observations = obs.map { |o| o.created_at = o.created_at.in_time_zone("Singapore"); o }
+    @observations = Observation.order("created_at").last(96)
 
     speeds = @observations.map do |o|
       if o.data[@station] && o.data[@station]
@@ -18,7 +17,7 @@ class ObservationsController < ApplicationController
 
     dir_res = []
 
-    directions = @observations.map do |o|
+    @observations.map do |o|
       if o.data[@station] && o.data[@station]
         time = o.created_at
         dir = o.data[@station]["direction"]
@@ -27,6 +26,8 @@ class ObservationsController < ApplicationController
           last = dir_res.pop
 
           dir_res.push([dir, last[1], time])
+        elsif dir_res.last
+          dir_res.push([dir, dir_res.last[2], time])
         else
           dir_res.push([dir, time, time])
         end
