@@ -1,7 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<h3><%= @station.gsub('-', ' ').humanize %></h3>
-<hr>
+<div class="row">
+  <div class="col">
+    <h3><%= @station.gsub('-', ' ').humanize %></h3>
+  </div>
+</div>
 
 <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
 <p>
@@ -13,5 +16,3 @@
   <h5>Wind Directions</h5>
   <%= timeline @directions, height: "400px" %>
 </p>
-
-<%= link_to 'Back', observations_path %>
