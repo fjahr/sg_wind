@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Observations</h1>
+
+<% @keys = @observations.first.data.keys.sort %>
+
+<table>
+  <thead>
+    <tr>
+      <th>
+        Time
+      </th>
+      <% @keys.each do |o| %>
+        <th><%= o %></th>
+      <% end %>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @observations.each do |o| %>
+      <tr>
+        <td>
+          <%= o.time %>
+        </td>
+        <% @keys.each do |k| %>
+          <td>
+            <%= o.data[k]["speed"] %> (<%= o.data[k]["direction"]%>)
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Observation', new_observation_path %>
