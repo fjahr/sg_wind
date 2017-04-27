@@ -13,3 +13,17 @@
  *= require_tree .
  *= require_self
  */
+@import "bootstrap";
+
+body {
+  padding-top: 3rem;
+}
+
+a:hover {
+  background: none;
+}
+
+a:visited {
+  color: #0275d8;
+}
+

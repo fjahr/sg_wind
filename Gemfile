@@ -8,6 +8,7 @@ ruby "2.4.0"
 
 gem 'faraday'
 gem "chartkick"
+gem 'bootstrap', '~> 4.0.0.alpha6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
