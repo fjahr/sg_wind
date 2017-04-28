@@ -58,8 +58,7 @@ class ObservationsController < ApplicationController
     @observation.save
 
     Facebook::Messenger::Subscriptions.subscribe(access_token: ENV["ACCESS_TOKEN"])
-    Bot.on :message do |message|
-        Bot.deliver({
+      Bot.deliver({
           recipient: {'id': '548314146'},
                   message: {
                       text: "new value recorded"
