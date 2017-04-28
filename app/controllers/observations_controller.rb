@@ -57,14 +57,14 @@ class ObservationsController < ApplicationController
     @observation = Observation.new(time: time, data: winds)
     @observation.save
 
-      Bot.deliver({
-        recipient: {
-          id: 'fabian.jahr'
-         },
-         message: {
-           text: 'Human?'
-         }
-      }, access_token: ENV['ACCESS_TOKEN'])
+    Facebook::Messenger::Subscriptions.subscribe(access_token: ENV["ACCESS_TOKEN"])
+    Bot.on :message do |message|
+        Bot.deliver({
+          recipient: {'id': '548314146'},
+                  message: {
+                      text: "new value recorded"
+                          }
+                }, access_token: ENV["ACCESS_TOKEN"])
 
     render status: 200, text: "success"
   end
