@@ -1,7 +1,7 @@
 class Subscriber < ApplicationRecord
   include Facebook::Messenger
 
-  def notify_all
+  def self.notify_all
     Facebook::Messenger::Subscriptions.subscribe(access_token: ENV["ACCESS_TOKEN"])
 
     Subscriber.all.each do |s|
