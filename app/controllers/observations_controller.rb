@@ -1,5 +1,4 @@
 class ObservationsController < ApplicationController
-  include Facebook::Messenger
 
   def index
     @observations = Observation.order("created_at").last(144).reverse
@@ -57,8 +56,10 @@ class ObservationsController < ApplicationController
     @observation = Observation.new(time: time, data: winds)
     @observation.save
 
-    Facebook::Messenger::Subscriptions.subscribe(access_token: ENV["ACCESS_TOKEN"])
-      Bot.deliver({recipient: {'id': '548314146'},message: {text: "new value recorded"}}, access_token: ENV["ACCESS_TOKEN"])
+    if winds["east-coast-parkway"][:speed] >= 0 && (Notification.last.created_at < 6.hours.ago)
+      Notification.new(station: "east-coast-parkway").save
+      Subscriber.notify_all
+    end
 
     render status: 200, text: "success"
   end
