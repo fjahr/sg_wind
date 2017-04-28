@@ -56,7 +56,7 @@ class ObservationsController < ApplicationController
     @observation = Observation.new(time: time, data: winds)
     @observation.save
 
-    if winds["east-coast-parkway"][:speed] >= 0 && (Notification.last.nil? || (Notification.last.created_at < 6.hours.ago))
+    if winds["east-coast-parkway"][:speed] >= 20 && (Notification.last.nil? || (Notification.last.created_at < 6.hours.ago))
       Notification.new(station: "east-coast-parkway").save
       Subscriber.notify_all
     end

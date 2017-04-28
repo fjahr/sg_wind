@@ -1,6 +1,8 @@
 class Subscriber < ApplicationRecord
   include Facebook::Messenger
 
+  validates :facebook_id, uniqueness: true
+
   def self.notify_all
     Facebook::Messenger::Subscriptions.subscribe(access_token: ENV["ACCESS_TOKEN"])
 
