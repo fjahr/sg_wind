@@ -8,10 +8,30 @@ Facebook::Messenger::Subscriptions.subscribe(access_token: ENV["ACCESS_TOKEN"])
 # message.text        # => 'Hello, bot!'
 
 Bot.on :message do |message|
-  Bot.deliver({
-    recipient: message.sender,
-    message: {
-      text: message.text
-    }
-  }, access_token: ENV["ACCESS_TOKEN"])
+  if message.text == "subscribe"
+    Subscriber.new(facebook_id: message.sender['id']).save
+
+    Bot.deliver({
+      recipient: message.sender,
+      message: {
+        text: "You are now subscribed."
+      }
+    }, access_token: ENV["ACCESS_TOKEN"])
+  elsif message.text == "unsubscribe"
+    Subscriber.find_by(facebook_id: message.sender['id']).destroy
+
+    Bot.deliver({
+      recipient: message.sender,
+      message: {
+        text: "You are now unsubscribed."
+      }
+    }, access_token: ENV["ACCESS_TOKEN"])
+  else
+    Bot.deliver({
+      recipient: message.sender,
+      message: {
+        text: "Say 'subscribe' to subscribe for wind updates and 'unsubscribe' for unsubscribing."
+      }
+    }, access_token: ENV["ACCESS_TOKEN"])
+  end
 end
