@@ -1,4 +1,5 @@
 class ObservationsController < ApplicationController
+  include Facebook::Messenger
 
   def index
     @observations = Observation.order("created_at").last(144).reverse
@@ -55,6 +56,15 @@ class ObservationsController < ApplicationController
 
     @observation = Observation.new(time: time, data: winds)
     @observation.save
+
+      Bot.deliver({
+        recipient: {
+          id: 'fabian.jahr'
+         },
+         message: {
+           text: 'Human?'
+         }
+      }, access_token: ENV['ACCESS_TOKEN'])
 
     render status: 200, text: "success"
   end
