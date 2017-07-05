@@ -61,6 +61,8 @@ class ObservationsController < ApplicationController
       Subscriber.notify_all
     end
 
+    old_observation = Observation.where('created_at < ?', 1.day.ago).destroy_all
+
     render status: 200, text: "success"
   end
 
